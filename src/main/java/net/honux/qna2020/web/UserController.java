@@ -8,12 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
     @PostMapping("/create")
-    public String create(String email, String name, String password1, String password2, Model model) {
-        System.out.printf("%s %s %s %s\n", email, name, password1, password2);
-        model.addAttribute("email", email);
-        model.addAttribute("name", name);
-        model.addAttribute("password1", password1);
-        model.addAttribute("password2", password2);
+    public String create(User user, Model model) {
+        System.out.println(user);
+        model.addAttribute("user", user);
         return "create";
     }
 }
