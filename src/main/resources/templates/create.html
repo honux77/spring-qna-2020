@@ -11,7 +11,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="index.html">Honux</a>
+    <a class="navbar-brand" href="index.html">Honux Todo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -29,23 +29,11 @@
     </div>
 </nav>
 <div class="container">
-    <h1>회원가입</h1>
-    <form action="/create" method="post">
-        <div class="form-group">
-            <label for="email">이메일</label>
-            <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-            <label for="name">이름</label>
-            <input type="text" class="form-control" name="name" aria-describedby="nameHelp" placeholder="이름을 입력하세요">
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" placeholder="Password를 넣어 주세요">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    <h1>Honux User Register template</h1>
+    <p>user: {{user}}</p>
+    <p>이메일: {{user.email}}</p>
+    <p>패스워드: {{user.password}}</p>
+
 </div>
 
 <!-- Optional JavaScript -->
