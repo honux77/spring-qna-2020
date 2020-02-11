@@ -26,6 +26,10 @@ public class User {
         return name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -38,6 +42,11 @@ public class User {
         this.password = password;
     }
 
+    public void update(User updateUser) {
+        this.email = updateUser.email;
+        this.name = updateUser.name;
+        this.password = updateUser.password;
+    }
     @Override
     public String toString() {
         return "User{" +
@@ -46,4 +55,6 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
+
+
 }

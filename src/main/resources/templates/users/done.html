@@ -1,7 +1,12 @@
 {{>include/header}}
 
 <div class="container">
-    <h1>사용자 가입이 완료되었습니다.</h1>
+    {{update}}
+    {{#if update}}
+    <h1>사용자 정보가 수정되었습니다.</h1>
+    {{else}}
+    <h1>회원 가입이 완료되었습니다.</h1>
+    {{/if}}
     <p>이름: {{user.name}}</p>
     <p>이메일: {{user.email}}</p>
     <p>아이디: {{user.id}}</p>
