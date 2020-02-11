@@ -5,8 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/users/")
@@ -15,9 +14,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/new")
+    @GetMapping("/form")
     public String registerForm() {
-        return "/users/new";
+        return "/users/form";
     }
 
     @GetMapping("/new/done/{userId}")
@@ -29,13 +28,47 @@ public class UserController {
         return "users/done";
     }
 
+    @GetMapping("/loginForm")
+    public String loginForm(String error, Model model) {
+        String message = null;
+        if (error == null ) {
+            error = "";
+        }
+        switch(error) {
+            case "email":
+                message = "Email not found!";
+                break;
+            case "passwrod":
+                message = "Wrong password";
+        }
+
+        model.addAttribute("error", message);
+        return "/users/loginForm";
+    }
+
     @GetMapping("/{id}/update")
     public String updateForm(@PathVariable Long id, Model model) {
         model.addAttribute("user", userRepository.findById(id).get());
         return "users/updateForm";
     }
 
-    @PostMapping("/new")
+    @PostMapping("/login")
+    public String login(String email, String password, HttpSession session) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            System.out.println("Email not found");
+            return "redirect:/users/loginForm?error=email";
+        }
+        if (!password.equals(user.getPassword())) {
+            System.out.println("Wrong password");
+            return "redirect:/users/loginForm?error=password";
+        }
+        session.setAttribute("name", user.getName());
+        System.out.println("login success");
+        return "redirect:/";
+    }
+
+    @PostMapping("/")
     public String create(User user, Model model) {
         userRepository.save(user);
         return "redirect:/users/new/done/" + user.getId();
@@ -54,5 +87,12 @@ public class UserController {
     public String list(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "/users/list";
+    }
+
+    //logout
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("name");
+        return "redirect:/";
     }
 }

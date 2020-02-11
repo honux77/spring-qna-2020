@@ -11,9 +11,11 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(nullable = false, length = 64)
+    @Column(nullable = false, length = 64, unique = true)
     private String email;
+    @Column(nullable = false, length = 64)
     private String name;
+    @Column(nullable = false, length = 32)
     private String password;
 
     public Long getId() { return id; }
