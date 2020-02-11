@@ -21,9 +21,11 @@ public class UserController {
     }
 
     @GetMapping("/new/done/{userId}")
-    public String registerComplete(@PathVariable Long userId, Model model) {
+    public String registerComplete(@PathVariable Long userId, boolean update, Model model) {
         User user = userRepository.findById(userId).get();
         model.addAttribute(user);
+        if(update)
+            model.addAttribute("update", true);
         return "users/done";
     }
 
