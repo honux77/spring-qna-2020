@@ -63,7 +63,7 @@ public class UserController {
             System.out.println("Wrong password");
             return "redirect:/users/loginForm?error=password";
         }
-        session.setAttribute("name", user.getName());
+        session.setAttribute("session-user", user);
         System.out.println("login success");
         return "redirect:/";
     }
@@ -92,7 +92,7 @@ public class UserController {
     //logout
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.removeAttribute("name");
+        session.removeAttribute("session-user");
         return "redirect:/";
     }
 }
