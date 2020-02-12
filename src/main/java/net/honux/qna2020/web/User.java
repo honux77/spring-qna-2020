@@ -1,15 +1,14 @@
 package net.honux.qna2020.web;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.sun.javafx.geom.transform.Identity;
+
+import javax.persistence.*;
 
 @Entity
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, length = 64, unique = true)
     private String email;
