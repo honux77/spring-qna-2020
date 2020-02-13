@@ -19,7 +19,7 @@ public class UserController {
         return "/users/form";
     }
 
-    @GetMapping("/new/done/{userId}")
+    @GetMapping("/done/{userId}")
     public String registerComplete(@PathVariable Long userId, boolean update, Model model) {
         User user = userRepository.findById(userId).get();
         model.addAttribute(user);
@@ -38,8 +38,10 @@ public class UserController {
             case "email":
                 message = "Email not found!";
                 break;
-            case "passwrod":
+            case "password":
                 message = "Wrong password";
+            case "login":
+                message = "please login";
         }
 
         model.addAttribute("error", message);
@@ -47,8 +49,16 @@ public class UserController {
     }
 
     @GetMapping("/{id}/update")
-    public String updateForm(@PathVariable Long id, Model model) {
-        model.addAttribute("user", userRepository.findById(id).get());
+    public String updateForm(@PathVariable Long id, Model model, HttpSession session) throws IllegalAccessException {
+        User user = userRepository.findById(id).get();
+        User sessionedUser = (User) session.getAttribute("session-user");
+        if (sessionedUser == null) {
+            return "redirect:/users/loginForm?error=login";
+        }
+        if (!user.getId().equals(sessionedUser.getId())) {
+            throw new IllegalAccessException("you don't have permission to update user " + id);
+        }
+            model.addAttribute("user", userRepository.findById(id).get());
         return "users/updateForm";
     }
 
@@ -71,16 +81,24 @@ public class UserController {
     @PostMapping("/")
     public String create(User user, Model model) {
         userRepository.save(user);
-        return "redirect:/users/new/done/" + user.getId();
+        return "redirect:/users/done/" + user.getId();
     }
 
     //@PutMapping not working
     @PostMapping("/{id}/update")
-    public String update(@PathVariable Long id, User updateUser, Model model) {
+    public String update(@PathVariable Long id, User updateUser, Model model, HttpSession session) throws IllegalAccessException {
+        User sessionedUser = (User) session.getAttribute("session-user");
+        if (sessionedUser == null) {
+            return "redirect:/users/loginForm?error=login";
+        }
+
         User user = userRepository.findById(id).get();
+        if (!user.getId().equals(sessionedUser.getId())) {
+            throw new IllegalAccessException("you don't have permission to update user " + id);
+        }
         user.update(updateUser);
         userRepository.save(user);
-        return "redirect:/users/new/done/" + user.getId()  + "?update=true";
+        return "redirect:/users/done/" + user.getId()  + "?update=true";
     }
 
     @GetMapping("/")
