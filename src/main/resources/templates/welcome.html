@@ -14,7 +14,9 @@
         </p>
 
         <p>
+            {{^session-user}}
             <a href="/users/new" class="btn btn-primary">회원가입</a>
+            {{/session-user}}
             <a href="#" class="btn btn-secondary">둘러보기</a>
         </p>
     </div>
