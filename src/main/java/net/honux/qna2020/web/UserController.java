@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import static net.honux.qna2020.web.HttpSessionUtils.*;
 
 @Controller
 @RequestMapping("/users/")
@@ -51,11 +52,11 @@ public class UserController {
     @GetMapping("/{id}/update")
     public String updateForm(@PathVariable Long id, Model model, HttpSession session) throws IllegalAccessException {
         User user = userRepository.findById(id).get();
-        User sessionedUser = (User) session.getAttribute("session-user");
-        if (sessionedUser == null) {
+        if (!isUserLogin(session)) {
             return "redirect:/users/loginForm?error=login";
         }
-        if (!user.getId().equals(sessionedUser.getId())) {
+        User sessionUser = getSessionUser(session);
+        if (!user.getId().equals(sessionUser.getId())) {
             throw new IllegalAccessException("you don't have permission to update user " + id);
         }
             model.addAttribute("user", userRepository.findById(id).get());
@@ -87,13 +88,13 @@ public class UserController {
     //@PutMapping not working
     @PostMapping("/{id}/update")
     public String update(@PathVariable Long id, User updateUser, Model model, HttpSession session) throws IllegalAccessException {
-        User sessionedUser = (User) session.getAttribute("session-user");
-        if (sessionedUser == null) {
+        if (!isUserLogin(session)) {
             return "redirect:/users/loginForm?error=login";
         }
+        User sessionUser = getSessionUser(session);
 
         User user = userRepository.findById(id).get();
-        if (!user.getId().equals(sessionedUser.getId())) {
+        if (!user.getId().equals(sessionUser.getId())) {
             throw new IllegalAccessException("you don't have permission to update user " + id);
         }
         user.update(updateUser);
