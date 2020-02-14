@@ -52,7 +52,7 @@ public class UserController {
     @GetMapping("/{id}/update")
     public String updateForm(@PathVariable Long id, Model model, HttpSession session) throws IllegalAccessException {
         User user = userRepository.findById(id).get();
-        if (!isUserLogin(session)) {
+        if (isNotUserLogin(session)) {
             return "redirect:/users/loginForm?error=login";
         }
         User sessionUser = getSessionUser(session);
@@ -70,7 +70,7 @@ public class UserController {
             System.out.println("Email not found");
             return "redirect:/users/loginForm?error=email";
         }
-        if (!password.equals(user.getPassword())) {
+        if (user.notMatchPassword(password)) {
             System.out.println("Wrong password");
             return "redirect:/users/loginForm?error=password";
         }
@@ -88,7 +88,7 @@ public class UserController {
     //@PutMapping not working
     @PostMapping("/{id}/update")
     public String update(@PathVariable Long id, User updateUser, Model model, HttpSession session) throws IllegalAccessException {
-        if (!isUserLogin(session)) {
+        if (isNotUserLogin(session)) {
             return "redirect:/users/loginForm?error=login";
         }
         User sessionUser = getSessionUser(session);

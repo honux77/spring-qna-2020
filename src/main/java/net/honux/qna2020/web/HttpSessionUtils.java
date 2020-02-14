@@ -9,7 +9,7 @@ public class HttpSessionUtils {
         return (User) session.getAttribute(SESSION_USER_KEY);
     }
 
-    public static boolean isUserLogin(HttpSession session) {
-        return getSessionUser(session) != null;
+    public static boolean isNotUserLogin(HttpSession session) {
+        return getSessionUser(session) == null;
     }
 }

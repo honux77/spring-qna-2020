@@ -58,4 +58,7 @@ public class User {
     }
 
 
+    public boolean notMatchPassword(String password) {
+        return !this.password.equals(password);
+    }
 }
