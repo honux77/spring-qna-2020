@@ -1,28 +1,39 @@
 {{>include/header}}
 
-<section class="jumbotron text-center">
-    <div class="container">
-        <h1>Honux QnA 2020</h1>
-        <p class="lead text-muted">
+<main role="main" class="container">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1>Honux QnA 2020</h1>
             {{#session-user}}
-            안녕하세요? {{name}} 님. 오늘도 적당히 살아요. <br>
+            <p>안녕하세요? {{name}} 님. 오늘도 적당히 살아요.</p>
+            <p><a href="/questions/form" class="btn btn-primary">질문하기</a></p>
             {{/session-user}}
             {{^session-user}}
-            주짓수, 코딩, 게임, 독서, 영화에 관한 질문을 받아요.
+            <p>주짓수, 코딩, 게임, 독서, 영화에 관한 질문을 받아요.</p>
+            <p><a href="/users/form" class="btn btn-primary">회원가입</a></p>
             {{/session-user}}
+        </div>
+    </section>
 
-        </p>
-
-        <p>
-            {{#session-user}}
-            <a href="/questions/form" class="btn btn-primary">질문하기</a>
-            {{/session-user}}
-            {{^session-user}}
-            <a href="/users/form" class="btn btn-primary">회원가입</a>
-            {{/session-user}}
-            <a href="/questions" class="btn btn-secondary">둘러보기</a>
-        </p>
+    <div class="my-3 p-3 rounded shadow-sm">
+        <p> 현재 {{num_users}} 명의 사용자와 {{num_questions}}개의 질문이 있습니다.</p>
+        <div class="panel panel-default">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>순번</th><th>작성자</th> <th>제목</th> <th>작성일자</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each questions}}
+                <tr>
+                    <th scope="row">{{id}}</th><td>{{writer}}</td>
+                    <td><a href="/question/{{id}}">{{title}}</a></td><td>{{formattedDate}}</td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
     </div>
-</section>
-
+</main>
 {{>include/footer}}
