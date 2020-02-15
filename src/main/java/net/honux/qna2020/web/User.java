@@ -1,7 +1,5 @@
 package net.honux.qna2020.web;
 
-import com.sun.javafx.geom.transform.Identity;
-
 import javax.persistence.*;
 
 @Entity
@@ -17,7 +15,9 @@ public class User {
     @Column(nullable = false, length = 32)
     private String password;
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
     public String getEmail() {
         return email;
@@ -48,6 +48,15 @@ public class User {
         this.name = updateUser.name;
         this.password = updateUser.password;
     }
+
+    public boolean notMatchPassword(String password) {
+        return !this.password.equals(password);
+    }
+
+    public boolean notMatchId(User sessionUser) {
+        return !id.equals(sessionUser.getId());
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -56,9 +65,5 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
-
-
-    public boolean notMatchPassword(String password) {
-        return !this.password.equals(password);
-    }
 }
+

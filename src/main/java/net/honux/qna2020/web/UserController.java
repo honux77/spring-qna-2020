@@ -56,7 +56,7 @@ public class UserController {
             return "redirect:/users/loginForm?error=login";
         }
         User sessionUser = getSessionUser(session);
-        if (!user.getId().equals(sessionUser.getId())) {
+        if (user.notMatchId(sessionUser)) {
             throw new IllegalAccessException("you don't have permission to update user " + id);
         }
             model.addAttribute("user", userRepository.findById(id).get());
@@ -91,6 +91,7 @@ public class UserController {
         if (isNotUserLogin(session)) {
             return "redirect:/users/loginForm?error=login";
         }
+
         User sessionUser = getSessionUser(session);
 
         User user = userRepository.findById(id).get();
