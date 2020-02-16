@@ -1,22 +1,23 @@
 package net.honux.qna2020.web;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, length = 64)
+    @Column(nullable = false, length = 64, unique = true)
     private String email;
+    @Column(nullable = false, length = 64)
     private String name;
+    @Column(nullable = false, length = 32)
     private String password;
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
     public String getEmail() {
         return email;
@@ -47,6 +48,15 @@ public class User {
         this.name = updateUser.name;
         this.password = updateUser.password;
     }
+
+    public boolean notMatchPassword(String password) {
+        return !this.password.equals(password);
+    }
+
+    public boolean notMatchId(User sessionUser) {
+        return !id.equals(sessionUser.getId());
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -55,6 +65,5 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
-
-
 }
+

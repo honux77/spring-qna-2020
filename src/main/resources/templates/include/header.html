@@ -22,9 +22,23 @@
             </li>
         </ul>
         <ul class="navbar-nav">
+            {{#session-user}}
             <li class="nav-item active">
-                <a class="nav-link" href="/users/new">회원가입</a>
+                <a class="nav-link" href="/users/{{id}}/update">개인정보 수정</a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/users/logout">로그아웃</a>
+            </li>
+            {{/session-user}}
+            {{^session-user}}
+            <li class="nav-item active">
+                <a class="nav-link" href="/users/loginForm">로그인</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/users/form">회원가입</a>
+            </li>
+            {{/session-user}}
         </ul>
+
     </div>
 </nav>
