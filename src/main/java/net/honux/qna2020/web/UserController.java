@@ -74,20 +74,21 @@ public class UserController {
             System.out.println("Wrong password");
             return "redirect:/users/loginForm?error=password";
         }
-        session.setAttribute("session-user", user);
+        sessionLogin(session, user);
         System.out.println("login success");
         return "redirect:/";
     }
 
     @PostMapping("/")
-    public String create(User user, Model model) {
+    public String create(User user, HttpSession session) {
         userRepository.save(user);
+        sessionLogin(session, user);
         return "redirect:/users/done/" + user.getId();
     }
 
     //@PutMapping not working
     @PostMapping("/{id}/update")
-    public String update(@PathVariable Long id, User updateUser, Model model, HttpSession session) throws IllegalAccessException {
+    public String update(@PathVariable Long id, User updateUser, HttpSession session) throws IllegalAccessException {
         if (isNotUserLogin(session)) {
             return "redirect:/users/loginForm?error=login";
         }

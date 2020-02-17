@@ -12,4 +12,8 @@ public class HttpSessionUtils {
     public static boolean isNotUserLogin(HttpSession session) {
         return getSessionUser(session) == null;
     }
+
+    public static void sessionLogin(HttpSession session, User user) {
+        session.setAttribute(SESSION_USER_KEY, user);
+    }
 }
