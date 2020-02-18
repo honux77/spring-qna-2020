@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping("/done/{userId}")
     public String registerComplete(@PathVariable Long userId, boolean update, Model model) {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.getOne(userId);
         model.addAttribute(user);
         if(update)
             model.addAttribute("update", true);
@@ -51,7 +51,7 @@ public class UserController {
 
     @GetMapping("/{id}/update")
     public String updateForm(@PathVariable Long id, Model model, HttpSession session) throws IllegalAccessException {
-        User user = userRepository.findById(id).get();
+        User user = userRepository.getOne(id);
         if (isNotUserLogin(session)) {
             return "redirect:/users/loginForm?error=login";
         }
@@ -59,7 +59,7 @@ public class UserController {
         if (user.notMatchId(sessionUser)) {
             throw new IllegalAccessException("you don't have permission to update user " + id);
         }
-            model.addAttribute("user", userRepository.findById(id).get());
+            model.addAttribute("user", userRepository.getOne(id));
         return "users/updateForm";
     }
 

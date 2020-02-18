@@ -34,7 +34,7 @@ public class Question {
     }
 
     public void setContents(String contents) {
-        this.contents = contents;
+        this.contents = HtmlUtils.htmlEscape(contents);
     }
 
     public Long getId() {return id; };
@@ -48,7 +48,7 @@ public class Question {
     }
 
     public String getContents() {
-        return contents;
+        return contents.replace("\r\n", "<br>\n");
     }
 
     public String getFormattedCreateDate() {
