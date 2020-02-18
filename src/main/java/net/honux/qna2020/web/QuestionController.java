@@ -31,7 +31,7 @@ public class QuestionController {
             return "redirect:/users/loginForm?error=login";
 
         }
-        question.setWriter(getSessionUser(session).getName());
+        question.setAuthor(getSessionUser(session));
         questionRepository.save(question);
 
         return "redirect:/";
