@@ -1,0 +1,19 @@
+{{>include/header }}
+
+<div class="container">
+    {{#question}}
+    <div class="col-md-10 col-md-offset-1">
+        <h1 class="border-bottom">{{title}}</h1>
+        <p> 질문 {{id}}번 작성자: {{author.name}}</p>
+        <p>작성일: {{formattedCreateDate}}</p>
+        <div id="content" class="border-bottom" style="margin-bottom: 2rem">{{contents}}</div>
+    </div>
+    <div class="col-md-4 col-md-offset-1">
+        <a class="btn btn-primary btn-sm" href="/">돌아가기</a>
+        <a class="btn btn-warning btn-sm" href="/questions/{{id}}/updateForm">수정</a>
+        <a class="btn btn-danger btn-sm" href="/questions/{{id}}/delete">삭제</a>
+    </div>
+    {{/question}}
+</div>
+
+{{>include/footer }}

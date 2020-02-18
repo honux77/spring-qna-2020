@@ -2,6 +2,7 @@ package net.honux.qna2020.web;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -51,8 +52,6 @@ public class Question {
     }
 
     public String getFormattedCreateDate() {
-        String s = createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        System.out.println(s);
-        return s;
+        return createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }
