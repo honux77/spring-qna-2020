@@ -53,8 +53,8 @@ public class User {
         return !this.password.equals(password);
     }
 
-    public boolean notMatchId(User sessionUser) {
-        return !id.equals(sessionUser.getId());
+    public boolean matchId(User sessionUser) {
+        return id.equals(sessionUser.getId());
     }
 
     @Override

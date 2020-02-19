@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+
 import static net.honux.qna2020.web.HttpSessionUtils.*;
 
 @Controller
@@ -24,7 +25,7 @@ public class UserController {
     public String registerComplete(@PathVariable Long userId, boolean update, Model model) {
         User user = userRepository.getOne(userId);
         model.addAttribute(user);
-        if(update)
+        if (update)
             model.addAttribute("update", true);
         return "users/done";
     }
@@ -32,10 +33,10 @@ public class UserController {
     @GetMapping("/loginForm")
     public String loginForm(String error, Model model) {
         String message = null;
-        if (error == null ) {
+        if (error == null) {
             error = "";
         }
-        switch(error) {
+        switch (error) {
             case "email":
                 message = "Email not found!";
                 break;
@@ -49,17 +50,17 @@ public class UserController {
         return "/users/loginForm";
     }
 
-    @GetMapping("/{id}/update")
+    @GetMapping("/{id}/updateForm")
     public String updateForm(@PathVariable Long id, Model model, HttpSession session) throws IllegalAccessException {
         User user = userRepository.getOne(id);
         if (isNotUserLogin(session)) {
             return "redirect:/users/loginForm?error=login";
         }
         User sessionUser = getSessionUser(session);
-        if (user.notMatchId(sessionUser)) {
+        if (!user.matchId(sessionUser)) {
             throw new IllegalAccessException("you don't have permission to update user " + id);
         }
-            model.addAttribute("user", userRepository.getOne(id));
+        model.addAttribute("user", userRepository.getOne(id));
         return "users/updateForm";
     }
 
@@ -86,8 +87,7 @@ public class UserController {
         return "redirect:/users/done/" + user.getId();
     }
 
-    //@PutMapping not working
-    @PostMapping("/{id}/update")
+    @PutMapping("/{id}")
     public String update(@PathVariable Long id, User updateUser, HttpSession session) throws IllegalAccessException {
         if (isNotUserLogin(session)) {
             return "redirect:/users/loginForm?error=login";
@@ -95,13 +95,14 @@ public class UserController {
 
         User sessionUser = getSessionUser(session);
 
-        User user = userRepository.findById(id).get();
+        User user = userRepository.getOne(id);
+
         if (!user.getId().equals(sessionUser.getId())) {
             throw new IllegalAccessException("you don't have permission to update user " + id);
         }
         user.update(updateUser);
         userRepository.save(user);
-        return "redirect:/users/done/" + user.getId()  + "?update=true";
+        return "redirect:/users/done/" + user.getId() + "?update=true";
     }
 
     @GetMapping("/")

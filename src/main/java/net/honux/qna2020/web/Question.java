@@ -34,7 +34,7 @@ public class Question {
     }
 
     public void setContents(String contents) {
-        this.contents = HtmlUtils.htmlEscape(contents);
+        this.contents = contents;
     }
 
     public Long getId() {return id; };
@@ -47,11 +47,25 @@ public class Question {
         return author;
     }
 
+    //for read
+    public String getContentsForRead() {
+        return HtmlUtils.htmlEscape(contents).replace("\r\n", "<br>\n");
+    }
+
     public String getContents() {
-        return contents.replace("\r\n", "<br>\n");
+        return contents;
     }
 
     public String getFormattedCreateDate() {
         return createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    public boolean matchAuthor(User sessionUser) {
+        return author.matchId(sessionUser);
+    }
+
+    public void update(Question question) throws IllegalAccessException {
+        this.title = question.title;
+        this.contents = question.contents;
     }
 }
