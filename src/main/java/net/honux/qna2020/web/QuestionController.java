@@ -67,7 +67,6 @@ public class QuestionController {
         Question question = questionRepository.getOne(id);
         model.addAttribute("question", questionRepository.getOne(id));
         if (question.matchAuthor(getSessionUser(session))) {
-            //System.out.println("My Question");
             model.addAttribute("own", true);
         }
         return "/qna/question";
@@ -77,11 +76,23 @@ public class QuestionController {
     public String create(Question question, HttpSession session) {
         if (isNotUserLogin(session)) {
             return "redirect:/users/loginForm?error=login";
-
         }
         question.setAuthor(getSessionUser(session));
         questionRepository.save(question);
 
+        return "redirect:/";
+    }
+
+    @DeleteMapping("{id}")
+    public String delete(@PathVariable Long id, HttpSession session) throws IllegalAccessException {
+        if (isNotUserLogin(session)) {
+            return "redirect:/users/loginForm?error=login";
+        }
+        Question question = questionRepository.getOne(id);
+        if (!question.matchAuthor(getSessionUser(session))) {
+            throw new IllegalAccessException("You don't have permission to delete question %d" + id);
+        }
+        questionRepository.delete(question);
         return "redirect:/";
     }
 }
