@@ -61,7 +61,7 @@ public class Question {
     }
 
     public boolean matchAuthor(User sessionUser) {
-        return author.matchId(sessionUser);
+        return author.equals(sessionUser);
     }
 
     public void update(Question question) throws IllegalAccessException {
