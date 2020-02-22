@@ -32,6 +32,8 @@ public class User {
         return password;
     }
 
+    public void setId(Long id) {this.id = id; }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -57,6 +59,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
+                "id=" + id + '\'' +
                 "email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +

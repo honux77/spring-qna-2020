@@ -4,7 +4,7 @@
 
     {{#if error}}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>로그인 오류!</strong> {{error}}
+        <strong>{{error}}</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -12,6 +12,9 @@
     {{/if}}
 
     <form action="/users/login" method="post">
+        {{#if returnTo}}
+        <input type="hidden" name="returnTo" value="{{returnTo}}">
+        {{/if}}
         <div class="form-group">
             <label for="email">이메일</label>
             <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">

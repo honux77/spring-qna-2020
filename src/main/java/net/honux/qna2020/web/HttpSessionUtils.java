@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 public class HttpSessionUtils {
     public static final String SESSION_USER_KEY = "session-user";
+    public static final String LOGIN_URL = "/users/loginForm";
 
     public static User getSessionUser(HttpSession session) {
         return (User) session.getAttribute(SESSION_USER_KEY);
@@ -15,5 +16,16 @@ public class HttpSessionUtils {
 
     public static void sessionLogin(HttpSession session, User user) {
         session.setAttribute(SESSION_USER_KEY, user);
+    }
+
+    public static String redirectUrl(String url, String error, String returnTo) {
+        String returnUrl = String.format("redirect:%s?", url);
+        if (error != null) {
+            returnUrl += String.format("error=%s&", error);
+        }
+        if (returnTo != null) {
+            returnUrl += String.format("returnTo=%s", returnTo);
+        }
+        return returnUrl;
     }
 }

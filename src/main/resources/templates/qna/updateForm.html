@@ -4,6 +4,8 @@
     {{#question}}
     <form action="/questions/{{id}}" method="post">
         <input type="hidden" name="_method" value="put" />
+        <input type="hidden" name="id" value="{{id}}" />
+
         <div class="form-group">
             <label for="title">제목</label>
             <input class="form-control" name="title" type="text" placeholder="제목" value="{{title}}">
