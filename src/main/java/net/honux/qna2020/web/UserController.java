@@ -16,11 +16,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/form")
-    public String registerForm() {
-        return "/users/form";
-    }
-
     @GetMapping("/done/{userId}")
     public String registerComplete(@PathVariable Long userId, boolean update, Model model) {
         User user = userRepository.getOne(userId);
