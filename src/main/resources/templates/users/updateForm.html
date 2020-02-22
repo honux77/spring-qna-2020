@@ -1,8 +1,7 @@
-{{>include/header}}
-<div class="container">
+{{#partial "content" }}<div class="container">
     <h1>회원정보 수정</h1>
     {{#user}}
-    <form action="/users/{{id}}/update" method="post">
+    <form action="/users/{{id}}" method="post">
         <input type="hidden" name="_method" value="put">
         <input type="hidden" name="id" value="{{id}}">
         <div class="form-group">
@@ -22,5 +21,5 @@
     </form>
     {{/user}}
 </div>
-
-{{>include/footer}}
+{{/partial}}
+{{>include/base}}

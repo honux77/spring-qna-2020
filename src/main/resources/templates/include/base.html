@@ -1,3 +1,4 @@
+{{#block "header"}}
 <!doctype html>
 <html lang="en">
 <head>
@@ -24,7 +25,7 @@
         <ul class="navbar-nav">
             {{#session-user}}
             <li class="nav-item active">
-                <a class="nav-link" href="/users/{{id}}/update">개인정보 수정</a>
+                <a class="nav-link" href="/users/{{id}}/updateForm">개인정보 수정</a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/users/logout">로그아웃</a>
@@ -42,3 +43,17 @@
 
     </div>
 </nav>
+{{/block}}
+
+{{#block "content"}}
+{{/block}}
+
+{{#block "footer" }}
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/js/jquery-3.4.1.slim.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
+{{/block}}

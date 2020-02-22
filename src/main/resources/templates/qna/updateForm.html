@@ -1,0 +1,23 @@
+{{#partial "content"}}
+<div class="container">
+    <h1>질문 수정하기</h1>
+    {{#question}}
+    <form action="/questions/{{id}}" method="post">
+        <input type="hidden" name="_method" value="put" />
+        <input type="hidden" name="id" value="{{id}}" />
+
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input class="form-control" name="title" type="text" placeholder="제목" value="{{title}}">
+        </div>
+        <div class="form-group">
+            <label for="question">내용</label>
+            <textarea wrap="" class="form-control" name="contents" rows="5" placeholder="질문을 적어 주세요.">{{contents}}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">수정</button>
+        <a href="/" class="btn btn-warning">취소</a>
+    </form>
+    {{/question}}
+</div>
+{{/partial}}
+{{> include/footer}}

@@ -1,7 +1,6 @@
-{{>include/header}}
-
+{{#partial "content" }}
 <main role="main" class="container">
-    <section class="jumbotron text-center">
+    <section class="jumbotron text-center" style="top-margin:10;">
         <div class="container">
             <h1>Honux QnA 2020</h1>
             {{#session-user}}
@@ -27,8 +26,8 @@
                 <tbody>
                 {{#each questions}}
                 <tr>
-                    <th scope="row">{{id}}</th><td>{{writer}}</td>
-                    <td><a href="/question/{{id}}">{{title}}</a></td><td>{{formattedDate}}</td>
+                    <th scope="row">{{id}}</th><td>{{author.name}}</td>
+                    <td><a href="/questions/{{id}}">{{title}}</a></td><td>{{formattedCreateDate}}</td>
                 </tr>
                 {{/each}}
                 </tbody>
@@ -36,4 +35,5 @@
         </div>
     </div>
 </main>
-{{>include/footer}}
+{{/partial}}
+{{>include/base}}

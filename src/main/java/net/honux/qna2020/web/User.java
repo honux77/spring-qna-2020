@@ -1,6 +1,7 @@
 package net.honux.qna2020.web;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class User {
@@ -31,6 +32,8 @@ public class User {
         return password;
     }
 
+    public void setId(Long id) {this.id = id; }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -53,17 +56,27 @@ public class User {
         return !this.password.equals(password);
     }
 
-    public boolean notMatchId(User sessionUser) {
-        return !id.equals(sessionUser.getId());
-    }
-
     @Override
     public String toString() {
         return "User{" +
+                "id=" + id + '\'' +
                 "email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
 
