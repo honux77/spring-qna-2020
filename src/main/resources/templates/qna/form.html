@@ -1,5 +1,4 @@
-{{> include/header}}
-
+{{#partial "content"}}
 <div class="container">
     <h1>질문하기</h1>
     <form action="/questions/" method="post">
@@ -14,5 +13,5 @@
         <button type="submit" class="btn btn-primary">글쓰기</button>
     </form>
 </div>
-
-{{> include/footer}}
+{{/partial}}
+{{>include/base}}

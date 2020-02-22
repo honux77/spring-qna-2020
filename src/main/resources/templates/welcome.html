@@ -1,7 +1,6 @@
-{{>include/header}}
-
+{{#partial "content" }}
 <main role="main" class="container">
-    <section class="jumbotron text-center">
+    <section class="jumbotron text-center" style="top-margin:10;">
         <div class="container">
             <h1>Honux QnA 2020</h1>
             {{#session-user}}
@@ -36,4 +35,5 @@
         </div>
     </div>
 </main>
-{{>include/footer}}
+{{/partial}}
+{{>include/base}}

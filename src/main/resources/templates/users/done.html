@@ -1,6 +1,4 @@
-{{>include/header}}
-
-<div class="container">
+{{#partial "content" }}<div class="container">
     {{#if update}}
     <h1>사용자 정보가 수정되었습니다.</h1>
     {{else}}
@@ -12,5 +10,5 @@
 
     <p><a href="/" class="btn btn-success" role="button">홈으로</a></p>
 </div>
-
-{{>include/footer}}
+{{/partial}}
+{{>include/base}}

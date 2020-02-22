@@ -1,5 +1,4 @@
-{{>include/header}}
-<div class="container">
+{{#partial "content" }}<div class="container">
     <h1>회원가입</h1>
     <form action="/users/" method="post">
         <div class="form-group">
@@ -18,5 +17,5 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-
-{{>include/footer}}
+{{/partial}}
+{{>include/base}}
