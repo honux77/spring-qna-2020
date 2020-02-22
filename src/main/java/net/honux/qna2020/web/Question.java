@@ -4,8 +4,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.persistence.*;
+import java.nio.MappedByteBuffer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Entity
 public class Question {
@@ -25,6 +27,10 @@ public class Question {
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createDate;
+
+    @OneToMany(mappedBy = "question")
+    @OrderBy("id ASC")
+    private List<Answer> answers;
 
     public void setTitle(String title) {
         this.title = title;
@@ -55,6 +61,10 @@ public class Question {
 
     public String getContents() {
         return contents;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
     }
 
     public String getFormattedCreateDate() {

@@ -26,8 +26,7 @@ public class AnswerController {
           return "redirect:/users/loginForm";
       }
 
-      Answer newAnswer = new Answer(questionRepository.getOne(questionId),  getSessionUser(session));
-      newAnswer.setContents(answer);
+      Answer newAnswer = new Answer(questionRepository.getOne(questionId),  getSessionUser(session), answer);
       answerRepository.save(newAnswer);
       return String.format("redirect:/questions/%d", questionId);
   }

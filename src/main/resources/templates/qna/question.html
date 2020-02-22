@@ -18,6 +18,13 @@
         </form>
         </div>
         {{/own}}
+
+        {{#each answers}}
+        <div class="col-md-10 col-md-offset-1">
+            <p>{{authorName}} {{formattedCreateDate}}</p>
+            <div id="content" class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</div>
+        </div>
+        {{/each}}
         {{/question}}
     </div>
     <div>

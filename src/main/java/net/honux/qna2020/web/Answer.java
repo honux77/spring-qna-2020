@@ -1,6 +1,11 @@
 package net.honux.qna2020.web;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.util.HtmlUtils;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Answer {
@@ -20,9 +25,14 @@ public class Answer {
     @Lob
     String contents;
 
-    public Answer(Question question, User author) {
+    @CreationTimestamp
+    LocalDateTime createDate;
+
+    public Answer() {};
+    public Answer(Question question, User author, String contents) {
         this.question = question;
         this.author = author;
+        this.contents = contents;
     }
 
 
@@ -30,11 +40,12 @@ public class Answer {
         return author.getName();
     }
 
-    public String getContents() {
-        return contents;
+    //for read
+    public String getContentsForRead() {
+        return HtmlUtils.htmlEscape(contents).replace("\r\n", "<br>\n");
     }
 
-    public void setContents(String answer) {
-        this.contents = answer;
+    public String getFormattedCreateDate() {
+        return createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }
