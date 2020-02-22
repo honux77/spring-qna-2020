@@ -20,6 +20,15 @@
         {{/own}}
         {{/question}}
     </div>
+    <div>
+        <form action="/questions/{{id}}/answers" method="post">
+            <div class="form-group">
+                <label for="answer">answers</label>
+                <textarea wrap="" class="form-control" name="answer" rows="5" placeholder="댓글을 달아 주세요."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">입력</button>
+        </form>
+    </div>
 </div>
 {{/partial}}
 {{>include/base}}

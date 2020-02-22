@@ -1,7 +1,6 @@
 package net.honux.qna2020.web;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.persistence.*;
@@ -19,6 +18,8 @@ public class Question {
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_user_author"))
     private User author;
+
+    @Lob
     private String contents;
 
     @CreationTimestamp
