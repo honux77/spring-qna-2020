@@ -19,12 +19,14 @@
         </div>
         {{/own}}
     </div>
-    {{#each answers}}
-    <div class="col-md-9 col-md-offset-2">
-        <p>{{authorName}} {{formattedCreateDate}}</p>
-        <div id="answers" class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</div>
+    <div id="answers">
+        {{#each answers}}
+        <div class="col-md-9 col-md-offset-2">
+            <p>{{authorName}} {{formattedCreateDate}}</p>
+            <p class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</p>
+        </div>
+        {{/each}}
     </div>
-    {{/each}}
     {{/question}}
     <div class="col-md-9 col-md-offset-2">
         <form id="answer-form" action="/api/questions/{{id}}/answers" method="post">
@@ -36,5 +38,12 @@
         </form>
     </div>
 </div>
+
+<template id="new-answer">
+<div class="col-md-9 col-md-offset-2">
+    <p>{0} {1}</p>
+    <p class="border-bottom" style="margin-bottom: 2rem">{2}</p>
+</div>
+</template>
 {{/partial}}
 {{>include/base}}

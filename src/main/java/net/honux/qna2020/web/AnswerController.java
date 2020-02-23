@@ -20,13 +20,13 @@ public class AnswerController {
     private QuestionRepository questionRepository;
 
   @PostMapping("")
-  public Answer create(@PathVariable Long questionId, String answer, HttpSession session) {
+    public Answer create(@PathVariable Long questionId, String answer, HttpSession session) {
 
-      if(isNotUserLogin(session) == Validation.NEED_LOGIN) {
-          return null;
-      }
+        if(isNotUserLogin(session) == Validation.NEED_LOGIN) {
+            return null;
+        }
 
-      Answer newAnswer = new Answer(questionRepository.getOne(questionId),  getSessionUser(session), answer);
-      return answerRepository.save(newAnswer);
-  }
+        Answer newAnswer = new Answer(questionRepository.getOne(questionId),  getSessionUser(session), answer);
+        return answerRepository.save(newAnswer);
+    }
 }
