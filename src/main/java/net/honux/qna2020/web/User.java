@@ -1,19 +1,32 @@
 package net.honux.qna2020.web;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty
     private Long id;
+
     @Column(nullable = false, length = 64, unique = true)
+    @JsonProperty
     private String email;
+
     @Column(nullable = false, length = 64)
+    @JsonProperty
     private String name;
+
     @Column(nullable = false, length = 32)
+    @JsonIgnore
     private String password;
 
     public Long getId() {
@@ -26,10 +39,6 @@ public class User {
 
     public String getName() {
         return name;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setId(Long id) {this.id = id; }
@@ -49,7 +58,9 @@ public class User {
     public void update(User updateUser) {
         this.email = updateUser.email;
         this.name = updateUser.name;
-        this.password = updateUser.password;
+        if(updateUser.password != null && updateUser.password.length() >= 1) {
+            this.password = updateUser.password;
+        }
     }
 
     public boolean notMatchPassword(String password) {
