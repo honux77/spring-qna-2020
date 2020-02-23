@@ -22,15 +22,15 @@
     {{#each answers}}
     <div class="col-md-9 col-md-offset-2">
         <p>{{authorName}} {{formattedCreateDate}}</p>
-        <div id="answer" class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</div>
+        <div id="answers" class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</div>
     </div>
     {{/each}}
     {{/question}}
     <div class="col-md-9 col-md-offset-2">
-        <form action="/questions/{{id}}/answers" method="post">
+        <form id="answer-form" action="/api/questions/{{id}}/answers" method="post">
             <div class="form-group">
-                <label for="answer">answers</label>
-                <textarea wrap="" class="form-control" name="answer" rows="5" placeholder="댓글을 달아 주세요."></textarea>
+                <label for="answer-textarea">댓글달기</label>
+                <textarea id="answer-textarea" wrap="" class="form-control" name="answer" rows="5" placeholder="댓글을 달아 주세요."></textarea>
             </div>
             <button type="submit" class="btn btn-primary btn-sm">입력</button>
         </form>
