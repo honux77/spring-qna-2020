@@ -11,23 +11,22 @@
         <a class="btn btn-primary btn-sm" href="/">돌아가기</a>
         {{#own}}
         <a class="btn btn-warning btn-sm" href="/questions/{{id}}/updateForm">수정</a>
-        <div>
+        <div style="display:inline-block">
         <form action="/questions/{{id}}" method="post">
             <input type="hidden" name="_method" value="delete">
             <button type="submit" class="btn btn-danger btn-sm">삭제</button>
         </form>
         </div>
         {{/own}}
-
-        {{#each answers}}
-        <div class="col-md-10 col-md-offset-1">
-            <p>{{authorName}} {{formattedCreateDate}}</p>
-            <div id="content" class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</div>
-        </div>
-        {{/each}}
-        {{/question}}
     </div>
-    <div>
+    {{#each answers}}
+    <div class="col-md-9 col-md-offset-2">
+        <p>{{authorName}} {{formattedCreateDate}}</p>
+        <div id="answer" class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</div>
+    </div>
+    {{/each}}
+    {{/question}}
+    <div class="col-md-9 col-md-offset-2">
         <form action="/questions/{{id}}/answers" method="post">
             <div class="form-group">
                 <label for="answer">answers</label>
