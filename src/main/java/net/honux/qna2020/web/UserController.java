@@ -112,8 +112,6 @@ public class UserController {
             return Validation.NEED_LOGIN;
         }
         if (!user.equals(getSessionUser(session))) {
-            System.err.println(user);
-            System.err.println(getSessionUser(session));
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, Validation.FAIL.getMessage());
         }
         return Validation.OK;
