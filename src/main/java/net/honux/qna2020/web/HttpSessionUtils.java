@@ -18,6 +18,8 @@ public class HttpSessionUtils {
         session.setAttribute(SESSION_USER_KEY, user);
     }
 
+    public static void sessionLogout(HttpSession session) { session.removeAttribute(SESSION_USER_KEY); }
+
     public static String redirectUrl(String url, String error, String returnTo) {
         String returnUrl = String.format("redirect:%s?", url);
         if (error != null) {

@@ -1,9 +1,11 @@
 package net.honux.qna2020.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,13 +28,16 @@ public class UserController {
 
     @GetMapping("/{id}/updateForm")
     public String updateForm(@PathVariable Long id, Model model, HttpSession session) throws IllegalAccessException {
-        User user = userRepository.getOne(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(()->(new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!")));
         Validation status = checkValidation(user, session);
         if (status.equals(Validation.NEED_LOGIN)) {
             return redirectUrl(LOGIN_URL, Validation.NEED_LOGIN.getMessage(),
                     String.format("/users/%d/updateForm", id));
         }
-        model.addAttribute("user", userRepository.getOne(id));
+        //model.addAttribute("user", userRepository.getOne(id));
+        model.addAttribute("user", getSessionUser(session));
+
         return "users/updateForm";
     }
 
@@ -71,15 +76,20 @@ public class UserController {
         return "redirect:" + returnTo;
     }
 
-    @PutMapping("/{userId}")
-    public String update(@PathVariable Long userId, User updateUser, HttpSession session) throws IllegalAccessException {
-        System.out.println(updateUser);
+    //public String update(@PathVariable Long id, User updateUser, HttpSession session) throws IllegalAccessException {
+    //id가 없어도 URL에서 id를 가져와서 User 인스턴스를 완성한다! 신기!!
+    @PutMapping("/{id}")
+    public String update(User updateUser, HttpSession session) throws IllegalAccessException {
         if (checkValidation(updateUser, session).equals(Validation.NEED_LOGIN)) {
             return redirectUrl(LOGIN_URL, Validation.NEED_LOGIN.getMessage(), null);
         }
 
         User user = getSessionUser(session);
         user.update(updateUser);
+        //로그아웃후 재 로그인
+        //안하면 세션 유저와 디비 유저가 달라짐
+        sessionLogout(session);
+        sessionLogin(session, user);
         userRepository.save(user);
         return String.format("redirect:/users/%d/done?update=true", user.getId());
     }
@@ -93,7 +103,7 @@ public class UserController {
     //logout
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.removeAttribute("session-user");
+        sessionLogout(session);
         return "redirect:/";
     }
 
@@ -102,7 +112,9 @@ public class UserController {
             return Validation.NEED_LOGIN;
         }
         if (!user.equals(getSessionUser(session))) {
-            throw new IllegalAccessException(Validation.FAIL.toString());
+            System.err.println(user);
+            System.err.println(getSessionUser(session));
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, Validation.FAIL.getMessage());
         }
         return Validation.OK;
     }
