@@ -108,7 +108,7 @@ public class UserController {
     }
 
     private Validation checkValidation(User user, HttpSession session) throws IllegalAccessException {
-        if (isNotUserLogin(session)) {
+        if (isNotUserLogin(session) == Validation.NEED_LOGIN) {
             return Validation.NEED_LOGIN;
         }
         if (!user.equals(getSessionUser(session))) {

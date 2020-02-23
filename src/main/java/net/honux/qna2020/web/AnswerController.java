@@ -22,8 +22,9 @@ public class AnswerController {
   @PostMapping("")
   public String create(@PathVariable Long questionId, String answer, HttpSession session) {
 
-      if(isNotUserLogin(session)) {
-          return "redirect:/users/loginForm";
+      if(isNotUserLogin(session) == Validation.NEED_LOGIN) {
+          return redirectUrl(LOGIN_URL, Validation.NEED_LOGIN.getMessage(),
+                  String.format("/questions/%d/", questionId));
       }
 
       Answer newAnswer = new Answer(questionRepository.getOne(questionId),  getSessionUser(session), answer);

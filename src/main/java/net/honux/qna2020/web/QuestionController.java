@@ -1,9 +1,14 @@
 package net.honux.qna2020.web;
 
+import javafx.scene.chart.ValueAxis;
+import javafx.scene.shape.VLineTo;
+import org.omg.CORBA.portable.ValueOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,32 +23,32 @@ public class QuestionController {
 
     @GetMapping("/form")
     public String questionForm(HttpSession session) {
-        if (isNotUserLogin(session)) {
-            return "redirect:/users/loginForm?error=login";
+        if (isNotUserLogin(session) == Validation.NEED_LOGIN) {
+            return redirectUrl(LOGIN_URL, Validation.NEED_LOGIN.getMessage(),"/questions/form");
         }
         return "/qna/form";
     }
 
     @GetMapping("/{id}/updateForm")
     public String updateForm(@PathVariable Long id, Model model, HttpSession session) throws IllegalAccessException {
-        if (isNotUserLogin(session)) {
-            return "redirect:/users/loginForm?error=login";
-        }
 
-        Question updateQuestion = questionRepository.getOne(id);
+        Question updateQuestion = getQuestionOr404(id);
+        Validation validation = checkValidation(updateQuestion, session);
+        if (validation == Validation.NEED_LOGIN) {
+            return redirectUrl(LOGIN_URL, validation.getMessage(),
+                    String.format("/questions/%d/updateForm", id));
+        }
 
         User sessionUser = getSessionUser(session);
-        if (!updateQuestion.matchAuthor(sessionUser)) {
-            throw new IllegalAccessException("You don't have permission to update Question " + id);
-        }
         model.addAttribute("question", updateQuestion);
         return "/qna/updateForm";
     }
 
     @PutMapping("/{id}")
     public String update(@PathVariable Long id, Question question, HttpSession session) throws IllegalAccessException {
-        if (isNotUserLogin(session)) {
-            return "redirect:/users/loginForm?error=login";
+        if (isNotUserLogin(session) == Validation.NEED_LOGIN) {
+            return redirectUrl(LOGIN_URL, Validation.NEED_LOGIN.getMessage(),
+                    String.format("/questions/%d", id));
         }
 
         Question updateQuestion = questionRepository.getOne(id);
@@ -61,8 +66,9 @@ public class QuestionController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable Long id, Model model, HttpSession session) {
-        if(isNotUserLogin(session)) {
-            return "redirect:/users/loginForm?error=login";
+        if(isNotUserLogin(session) == Validation.NEED_LOGIN) {
+            return redirectUrl(LOGIN_URL, Validation.NEED_LOGIN.getMessage()
+            ,String.format("/questions/%d", id));
         }
         Question question = questionRepository.getOne(id);
         model.addAttribute("question", questionRepository.getOne(id));
@@ -74,8 +80,8 @@ public class QuestionController {
 
     @PostMapping("")
     public String create(Question question, HttpSession session) {
-        if (isNotUserLogin(session)) {
-            return "redirect:/users/loginForm?error=login";
+        if (isNotUserLogin(session) == Validation.NEED_LOGIN) {
+            return redirectUrl(LOGIN_URL, Validation.NEED_LOGIN.getMessage(), "/questions/form");
         }
         question.setAuthor(getSessionUser(session));
         questionRepository.save(question);
@@ -85,8 +91,9 @@ public class QuestionController {
 
     @DeleteMapping("{id}")
     public String delete(@PathVariable Long id, HttpSession session) throws IllegalAccessException {
-        if (isNotUserLogin(session)) {
-            return "redirect:/users/loginForm?error=login";
+        if (isNotUserLogin(session) == Validation.NEED_LOGIN) {
+            return redirectUrl(LOGIN_URL, Validation.NEED_LOGIN.getMessage(),
+                    String.format("/questions/%d", id));
         }
         Question question = questionRepository.getOne(id);
         if (!question.matchAuthor(getSessionUser(session))) {
@@ -94,5 +101,21 @@ public class QuestionController {
         }
         questionRepository.delete(question);
         return "redirect:/";
+    }
+
+    private Question getQuestionOr404(Long id) throws ResponseStatusException {
+        return questionRepository.findById(id)
+                .orElseThrow(()-> (new ResponseStatusException(HttpStatus.NOT_FOUND, "Question not found")));
+    }
+
+    private Validation checkValidation(Question question, HttpSession session) throws ResponseStatusException {
+        if (isNotUserLogin(session) == Validation.NEED_LOGIN) {
+            return Validation.NEED_LOGIN;
+        }
+
+        if (!question.matchAuthor(getSessionUser(session))) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, Validation.FAIL.getMessage());
+        }
+        return Validation.OK;
     }
 }

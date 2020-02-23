@@ -10,8 +10,11 @@ public class HttpSessionUtils {
         return (User) session.getAttribute(SESSION_USER_KEY);
     }
 
-    public static boolean isNotUserLogin(HttpSession session) {
-        return getSessionUser(session) == null;
+    public static Validation isNotUserLogin(HttpSession session) {
+        if (getSessionUser(session) != null) {
+            return Validation.OK;
+        }
+        return Validation.NEED_LOGIN;
     }
 
     public static void sessionLogin(HttpSession session, User user) {
