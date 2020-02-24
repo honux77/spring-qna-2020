@@ -36,10 +36,8 @@ function appendAnswer(answer) {
 }
 
 
-$(document).on('click', '.answer-delete', deleteAnswer);
-//$("a.answer-delete").click(deleteAnswer);
-async function deleteAnswer(e)
-{
+$('#answers').delegate( '.answer-delete', 'click', deleteAnswer);
+async function deleteAnswer(e) {
     e.preventDefault();
     const el = $(this);
     const url = el.attr("href");
