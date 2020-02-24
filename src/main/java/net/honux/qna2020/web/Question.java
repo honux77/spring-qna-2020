@@ -1,5 +1,6 @@
 package net.honux.qna2020.web;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.util.HtmlUtils;
 

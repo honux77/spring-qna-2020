@@ -5,12 +5,15 @@ import javafx.scene.shape.VLineTo;
 import org.omg.CORBA.portable.ValueOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.objenesis.instantiator.android.AndroidSerializationInstantiator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.List;
 
 import static net.honux.qna2020.web.HttpSessionUtils.*;
 
@@ -20,6 +23,9 @@ public class QuestionController {
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private AnswerRepository answerRepository;
 
     @GetMapping("/form")
     public String questionForm(HttpSession session) {
@@ -71,7 +77,9 @@ public class QuestionController {
             ,String.format("/questions/%d", id));
         }
         Question question = questionRepository.getOne(id);
-        model.addAttribute("question", questionRepository.getOne(id));
+        model.addAttribute("question", question);
+        //model.addAttribute("answers", question.getAnswers());
+
         if (question.matchAuthor(getSessionUser(session))) {
             model.addAttribute("own", true);
         }
@@ -99,6 +107,13 @@ public class QuestionController {
         if (!question.matchAuthor(getSessionUser(session))) {
             throw new IllegalAccessException("You don't have permission to delete question %d" + id);
         }
+
+        //remove all answers
+        //cascade 옵션을 사용하고 싶었는데 잘 안 됨
+        for (Answer answer:question.getAnswers()) {
+            answerRepository.delete(answer);
+        }
+
         questionRepository.delete(question);
         return "redirect:/";
     }
