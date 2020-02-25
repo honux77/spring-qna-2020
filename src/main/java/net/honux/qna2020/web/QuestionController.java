@@ -1,11 +1,7 @@
 package net.honux.qna2020.web;
 
-import javafx.scene.chart.ValueAxis;
-import javafx.scene.shape.VLineTo;
-import org.omg.CORBA.portable.ValueOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.objenesis.instantiator.android.AndroidSerializationInstantiator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
