@@ -20,18 +20,19 @@
         {{/own}}
     </div>
     <div id="answers">
-        {{#each answers}}
-        <div class="col-md-9 col-md-offset-2">
-            <p>{{authorName}} {{formattedCreateDate}}</p>
-            <p class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</p>
-        </div>
-        {{/each}}
+    {{#each answers}}
+    <div class="answer col-md-9 col-md-offset-2">
+        <p>{{authorName}} {{formattedCreateDate}}</p>
+        <p class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</p>
+        <a class="answer-edit" href="/api/questions/{{question.id}}/answers/{{id}}">수정</a> <a class="answer-delete" href="/api/questions/{{question.id}}/answers/{{id}}">삭제</a>
+    </div>
+    {{/each}}
     </div>
     {{/question}}
-    <div class="col-md-9 col-md-offset-2">
+
+    <div class="col-md-9 col-md-offset-2" style="margin-top:10px">
         <form id="answer-form" action="/api/questions/{{id}}/answers" method="post">
             <div class="form-group">
-                <label for="answer-textarea">댓글달기</label>
                 <textarea id="answer-textarea" wrap="" class="form-control" name="answer" rows="5" placeholder="댓글을 달아 주세요."></textarea>
             </div>
             <button type="submit" class="btn btn-primary btn-sm">입력</button>
@@ -40,10 +41,11 @@
 </div>
 
 <template id="new-answer">
-<div class="col-md-9 col-md-offset-2">
-    <p>{0} {1}</p>
-    <p class="border-bottom" style="margin-bottom: 2rem">{2}</p>
-</div>
+    <div class="answer col-md-9 col-md-offset-2">
+        <p>{{authorName}} {{formattedCreateDate}}</p>
+        <p class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</p>
+        <a class="answer-edit" href="/api/questions/{{question.id}}/answers/{{id}}">수정</a> <a class="answer-delete" href="/api/questions/{{question.id}}/answers/{{id}}">삭제</a>
+    </div>
 </template>
 {{/partial}}
 {{>include/base}}

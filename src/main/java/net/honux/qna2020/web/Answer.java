@@ -1,5 +1,7 @@
 package net.honux.qna2020.web;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.util.HtmlUtils;
 
@@ -12,6 +14,7 @@ public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty
     private Long id;
 
     @ManyToOne
@@ -35,10 +38,14 @@ public class Answer {
         this.contents = contents;
     }
 
+    public Long getId() {return id; }
 
     public String getAuthorName() {
         return author.getName();
     }
+
+    public Long getQuestionId() { return question.getId(); }
+
 
     //for read
     public String getContentsForRead() {
@@ -47,5 +54,9 @@ public class Answer {
 
     public String getFormattedCreateDate() {
         return createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    public boolean matchAuthor(User sessionUser) {
+        return this.author.equals(sessionUser);
     }
 }
