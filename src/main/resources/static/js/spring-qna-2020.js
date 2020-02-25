@@ -18,19 +18,17 @@ $("#answer-form button").click(async (e) => {
 /*    <div class="col-md-9 col-md-offset-2">
         <p>{{authorName}} {{formattedCreateDate}}</p>
         <p class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</p>
-        <a class="answer-edit" href="questions/{{question.id}}/answers/{{id}}">수정</a> <a class="answer-delete" href="questions/{{question.id}}/answers/{{id}}">삭제</a>
+        <a class="answer-edit" href="questions/{{questionId}}/answers/{{id}}">수정</a> <a class="answer-delete" href="questions/{{questionId}}/answers/{{id}}">삭제</a>
     </div> */
 function appendAnswer(answer) {
+    let htmlString = `<div class="answer col-md-9 col-md-offset-2">
+        <p>${answer.authorName} ${answer.formattedCreateDate}  <a class="answer-delete" href="/api/questions/${answer.questionId}/answers/${answer.id}">삭제</a></p>         
+        <p class="border-bottom" style="margin-bottom: 2rem">${answer.contentsForRead}</p>
+    </div>`;
+    let div = document.createElement("div");
+    div.innerHTML = htmlString;
     let parent = document.getElementById('answers')
-    let template = document.querySelector('#new-answer');
-    let answerNode = template.content.cloneNode(true);
-    let allp = answerNode.querySelectorAll('p');
-    let alla = answerNode.querySelectorAll('a');
-    allp[0].textContent = answer.authorName + " " + answer.formattedCreateDate;
-    allp[1].textContent = answer.contentsForRead;
-    alla[0].setAttribute('href', `/api/questions/${answer.questionId}/answers/${answer.id}`);
-    alla[1].setAttribute('href', `/api/questions/${answer.questionId}/answers/${answer.id}`);
-    parent.appendChild(answerNode);
+    parent.insertAdjacentElement('beforeEnd', div.firstChild);
     //clear input
     $('#answer-textarea').val('');
 }

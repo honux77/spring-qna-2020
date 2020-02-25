@@ -9,8 +9,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 
-import java.util.List;
-
 import static net.honux.qna2020.web.HttpSessionUtils.*;
 
 @Controller
