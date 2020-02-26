@@ -38,10 +38,13 @@ public class AbstractEntity {
     public void setId(Long id) {this.id = id; }
 
     public String getFormattedCreatedDate() {
+        if(createdDate == null) return "";
         return createdDate.format(dateTimeFormatter);
     }
 
-    public String getFormattedModifiedDate() {
+    public String getFormattedModifiedDate()
+    {
+        if(modifiedDate == null) return "";
         return modifiedDate.format(dateTimeFormatter);
     }
 

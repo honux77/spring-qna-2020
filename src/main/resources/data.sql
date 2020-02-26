@@ -1,7 +1,7 @@
-insert into user (email, name, password, created_date) values
-    ('honux0@gmail.com', 'Hoyoung Jung', '1234', '2018-01-01 08:00'),
-    ('honux1@gmail.com', 'HoOne Jung', '1234', '2018-01-01 08:00'),
-    ('honux2@gmail.com', 'HoYi Jung', '1234', '2018-01-01 08:00');
+insert into user (email, name, password, created_date, total_access) values
+    ('honux0@gmail.com', 'Hoyoung Jung', '1234', '2018-01-01 08:00', 0),
+    ('honux1@gmail.com', 'HoOne Jung', '1234', '2018-01-01 08:00', 0),
+    ('honux2@gmail.com', 'HoYi Jung', '1234', '2018-01-01 08:00', 0);
 
 
 

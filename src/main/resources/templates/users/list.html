@@ -4,13 +4,15 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>아이디</th><th>이메일</th> <th>이름</th> <th>회원 가입일</th>
+                    <th>아이디</th><th>이메일</th> <th>이름</th> <th>회원 가입일</th> <th>최종 접속일</th> <th>방문횟수</th>
                 </tr>
                 </thead>
                 <tbody>
                 {{#each users}}
                 <tr>
-                    <th scope="row">{{@id}}</th><td>{{email}}</td><td>{{name}}</td><td>{{formattedCreatedDate}}</td>
+                    <th scope="row">{{@id}}</th><td>{{email}}</td><td>{{name}}</td>
+                    <td>{{formattedCreatedDate}}</td><td>{{formattedModifiedDate}}</td>
+                    <td>{{totalAccess}}</td>
                 </tr>
                 {{/each}}
                 </tbody>

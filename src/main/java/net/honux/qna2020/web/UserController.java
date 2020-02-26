@@ -69,6 +69,8 @@ public class UserController {
         }
 
         sessionLogin(session, user);
+        user.increaseAccess();
+        userRepository.save(user);
         System.out.println("login success");
         if (returnTo == null) {
            return "redirect:/";

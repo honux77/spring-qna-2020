@@ -4,7 +4,8 @@
     <div class="col-md-10 col-md-offset-1 border-bottom" style="margin-bottom: 2rem">
         <h1 class="border-bottom">{{title}}</h1>
         <p> 질문 {{id}}번 작성자: {{author.name}}</p>
-        <p>작성일: {{formattedCreatedDate}}</p>
+        <p>작성: {{formattedCreatedDate}} 최종수정: {{formattedModifiedDate}}</p>
+
         <div id="question">
             <p>{{{contentsForRead}}}</p>
             <p>현재 <span id="num-answer">{{answerCount}}</span>개의 답변이 있습니다.</p>

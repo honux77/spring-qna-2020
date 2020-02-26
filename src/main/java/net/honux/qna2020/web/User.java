@@ -22,6 +22,15 @@ public class User extends AbstractEntity {
     @JsonIgnore
     private String password;
 
+    @JsonProperty
+    private int totalAccess;
+
+    public int getTotalAccess() {return totalAccess; }
+
+    public void increaseAccess() {
+        totalAccess++;
+    }
+
     public String getEmail() {
         return email;
     }
