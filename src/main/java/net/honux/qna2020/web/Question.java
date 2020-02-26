@@ -1,5 +1,6 @@
 package net.honux.qna2020.web;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.util.HtmlUtils;
@@ -33,6 +34,8 @@ public class Question {
     @OrderBy("id ASC")
     private List<Answer> answers;
 
+    private int answerCount = 0;
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -46,6 +49,8 @@ public class Question {
     }
 
     public Long getId() {return id; };
+
+    public int getAnswerCount() {return answerCount; }
 
     public String getTitle() {
         return title;
@@ -79,5 +84,13 @@ public class Question {
     public void update(Question question) throws IllegalAccessException {
         this.title = question.title;
         this.contents = question.contents;
+    }
+
+    public void addAnswer() {
+        answerCount++;
+    }
+
+    public void deleteAnswer() {
+        answerCount--;
     }
 }

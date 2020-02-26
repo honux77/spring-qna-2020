@@ -23,12 +23,15 @@ $("#answer-form button").click(async (e) => {
 function appendAnswer(answer) {
     let htmlString = `<div class="answer col-md-9 col-md-offset-2">
         <p>${answer.authorName} ${answer.formattedCreateDate}  <a class="answer-delete" href="/api/questions/${answer.questionId}/answers/${answer.id}">삭제</a></p>         
-        <p class="border-bottom" style="margin-bottom: 2rem">${answer.contentsForRead}</p>
+        <p class="border-bottom" style="margin-bottom: 1rem">${answer.contentsForRead}</p>
     </div>`;
     let div = document.createElement("div");
     div.innerHTML = htmlString;
     let parent = document.getElementById('answers')
     parent.insertAdjacentElement('beforeEnd', div.firstChild);
+    //increase num count
+    let n = parseInt($('#num-answer').text()) + 1;
+    $('#num-answer').text(n);
     //clear input
     $('#answer-textarea').val('');
 }
@@ -46,6 +49,8 @@ async function deleteAnswer(e) {
         });
         console.log("result:", await res.json());
         el.closest('.answer').remove();
+        let n = parseInt($('#num-answer').text()) - 1;
+        $('#num-answer').text(n);
     } catch (err) {
         console.error('error:', err);
     }

@@ -20,13 +20,13 @@
             <table class="table table-hover table-striped">
                 <thead>
                 <tr>
-                    <th>순번</th><th>작성자</th> <th>제목</th> <th>작성일자</th>
+                    <th>답변수</th><th>작성자</th> <th>제목</th> <th>작성일자</th>
                 </tr>
                 </thead>
                 <tbody>
                 {{#each questions}}
                 <tr>
-                    <th scope="row">{{id}}</th><td>{{author.name}}</td>
+                    <th scope="row">{{answerCount}}</th><td>{{author.name}}</td>
                     <td><a href="/questions/{{id}}">{{title}}</a></td><td>{{formattedCreateDate}}</td>
                 </tr>
                 {{/each}}
