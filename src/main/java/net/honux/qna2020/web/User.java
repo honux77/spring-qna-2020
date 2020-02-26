@@ -8,14 +8,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User {
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty
-    private Long id;
+public class User extends AbstractEntity {
 
     @Column(nullable = false, length = 64, unique = true)
     @JsonProperty
@@ -29,10 +22,6 @@ public class User {
     @JsonIgnore
     private String password;
 
-    public Long getId() {
-        return id;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -40,8 +29,6 @@ public class User {
     public String getName() {
         return name;
     }
-
-    public void setId(Long id) {this.id = id; }
 
     public void setEmail(String email) {
         this.email = email;
@@ -70,24 +57,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id + '\'' +
+                "id=" + this.getId() + '\'' +
                 "email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id.equals(user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }
 
