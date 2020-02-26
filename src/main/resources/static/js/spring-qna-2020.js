@@ -22,7 +22,7 @@ $("#answer-form button").click(async (e) => {
     </div> */
 function appendAnswer(answer) {
     let htmlString = `<div class="answer col-md-9 col-md-offset-2">
-        <p>${answer.authorName} ${answer.formattedCreateDate}  <a class="answer-delete" href="/api/questions/${answer.questionId}/answers/${answer.id}">삭제</a></p>         
+        <p>${answer.authorName} ${answer.formattedCreatedDate}  <a class="answer-delete" href="/api/questions/${answer.questionId}/answers/${answer.id}">삭제</a></p>         
         <p class="border-bottom" style="margin-bottom: 1rem">${answer.contentsForRead}</p>
     </div>`;
     let div = document.createElement("div");

@@ -1,22 +1,12 @@
 package net.honux.qna2020.web;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.web.util.HtmlUtils;
-
 import javax.persistence.*;
-import java.nio.MappedByteBuffer;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Entity
-public class Question {
+import static net.honux.qna2020.web.WebUtils.htmlContentsForRead;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Entity
+public class Question extends AbstractEntity {
 
     private String title;
     @ManyToOne
@@ -25,10 +15,6 @@ public class Question {
 
     @Lob
     private String contents;
-
-    @CreationTimestamp
-    @Column(nullable = false)
-    private LocalDateTime createDate;
 
     @OneToMany(mappedBy = "question")
     @OrderBy("id ASC")
@@ -48,8 +34,6 @@ public class Question {
         this.contents = contents;
     }
 
-    public Long getId() {return id; };
-
     public int getAnswerCount() {return answerCount; }
 
     public String getTitle() {
@@ -62,7 +46,7 @@ public class Question {
 
     //for read
     public String getContentsForRead() {
-        return HtmlUtils.htmlEscape(contents).replace("\r\n", "<br>\n");
+        return htmlContentsForRead(contents);
     }
 
     public String getContents() {
@@ -71,10 +55,6 @@ public class Question {
 
     public List<Answer> getAnswers() {
         return answers;
-    }
-
-    public String getFormattedCreateDate() {
-        return createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     public boolean matchAuthor(User sessionUser) {

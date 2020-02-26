@@ -1,13 +1,11 @@
 package net.honux.qna2020.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 
-import static net.honux.qna2020.web.HttpSessionUtils.*;
+import static net.honux.qna2020.web.WebUtils.*;
 
 @RestController
 @RequestMapping("/api/questions/{questionId}/answers")

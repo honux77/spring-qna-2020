@@ -1,21 +1,13 @@
 package net.honux.qna2020.web;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static net.honux.qna2020.web.WebUtils.htmlContentsForRead;
 @Entity
-public class Answer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty
-    private Long id;
+public class Answer extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name="fk_question"))
@@ -28,17 +20,12 @@ public class Answer {
     @Lob
     String contents;
 
-    @CreationTimestamp
-    LocalDateTime createDate;
-
     public Answer() {};
     public Answer(Question question, User author, String contents) {
         this.question = question;
         this.author = author;
         this.contents = contents;
     }
-
-    public Long getId() {return id; }
 
     public String getAuthorName() {
         return author.getName();
@@ -49,12 +36,8 @@ public class Answer {
 
     //for read
     public String getContentsForRead() {
-        return HtmlUtils.htmlEscape(contents).replace("\r\n", "<br>\n");
-    }
-
-    public String getFormattedCreateDate() {
-        return createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
+        return htmlContentsForRead(contents);
+    };
 
     public boolean matchAuthor(User sessionUser) {
         return this.author.equals(sessionUser);
