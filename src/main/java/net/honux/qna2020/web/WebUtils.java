@@ -1,8 +1,10 @@
 package net.honux.qna2020.web;
 
+import org.springframework.web.util.HtmlUtils;
+
 import javax.servlet.http.HttpSession;
 
-public class HttpSessionUtils {
+public class WebUtils {
     public static final String SESSION_USER_KEY = "session-user";
     public static final String LOGIN_URL = "/users/loginForm";
 
@@ -33,4 +35,9 @@ public class HttpSessionUtils {
         }
         return returnUrl;
     }
+
+    public static String htmlContentsForRead(String contents) {
+        return HtmlUtils.htmlEscape(contents).replace("\r\n", "<br>\n");
+    }
+
 }

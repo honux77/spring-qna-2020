@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 
-import static net.honux.qna2020.web.HttpSessionUtils.*;
+import static net.honux.qna2020.web.WebUtils.*;
 
 @Controller
 @RequestMapping("/users/")
@@ -69,6 +69,8 @@ public class UserController {
         }
 
         sessionLogin(session, user);
+        user.increaseAccess();
+        userRepository.save(user);
         System.out.println("login success");
         if (returnTo == null) {
            return "redirect:/";
@@ -76,8 +78,6 @@ public class UserController {
         return "redirect:" + returnTo;
     }
 
-    //public String update(@PathVariable Long id, User updateUser, HttpSession session) throws IllegalAccessException {
-    //id가 없어도 URL에서 id를 가져와서 User 인스턴스를 완성한다! 신기!!
     @PutMapping("/{id}")
     public String update(User updateUser, HttpSession session) throws IllegalAccessException {
         if (checkValidation(updateUser, session).equals(Validation.NEED_LOGIN)) {

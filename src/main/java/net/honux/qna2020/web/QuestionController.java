@@ -9,9 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 
-import java.util.List;
-
-import static net.honux.qna2020.web.HttpSessionUtils.*;
+import static net.honux.qna2020.web.WebUtils.*;
 
 @Controller
 @RequestMapping("/questions/")
@@ -74,7 +72,6 @@ public class QuestionController {
         }
         Question question = questionRepository.getOne(id);
         model.addAttribute("question", question);
-        //model.addAttribute("answers", question.getAnswers());
 
         if (question.matchAuthor(getSessionUser(session))) {
             model.addAttribute("own", true);

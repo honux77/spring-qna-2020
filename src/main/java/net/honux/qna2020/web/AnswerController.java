@@ -1,13 +1,11 @@
 package net.honux.qna2020.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 
-import static net.honux.qna2020.web.HttpSessionUtils.*;
+import static net.honux.qna2020.web.WebUtils.*;
 
 @RestController
 @RequestMapping("/api/questions/{questionId}/answers")
@@ -25,7 +23,11 @@ public class AnswerController {
         }
 
         Answer newAnswer = new Answer(questionRepository.getOne(questionId), getSessionUser(session), answer);
+        Question question = questionRepository.getOne(questionId);
+        question.addAnswer();
+        questionRepository.save(question);
         return answerRepository.save(newAnswer);
+
     }
 
     @DeleteMapping("{id}")
@@ -38,6 +40,10 @@ public class AnswerController {
             return new SimpleResponse(403, "you don't have permission");
 
         }
+
+        Question question = questionRepository.getOne(questionId);
+        question.deleteAnswer();
+        questionRepository.save(question);
         answerRepository.delete(answer);
         return new SimpleResponse(200, "Delete Success: ID " + id);
     }
