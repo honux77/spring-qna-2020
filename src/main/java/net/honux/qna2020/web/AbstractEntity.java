@@ -22,11 +22,9 @@ public class AbstractEntity {
     private Long id;
 
     @CreatedDate
-    @JsonProperty
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @JsonProperty
     private LocalDateTime modifiedDate;
 
     private final static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
