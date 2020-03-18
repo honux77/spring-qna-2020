@@ -1,5 +1,7 @@
 package net.honux.qna2020.web;
 
+import net.honux.qna2020.web.exception.ResourceNotFoundException;
+import net.honux.qna2020.web.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -27,9 +29,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}/updateForm")
-    public String updateForm(@PathVariable Long id, Model model, HttpSession session) throws IllegalAccessException {
+    public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
         User user = userRepository.findById(id)
-                .orElseThrow(()->(new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!")));
+                .orElseThrow(ResourceNotFoundException::userNotFound);
         Validation status = checkValidation(user, session);
         if (status.equals(Validation.NEED_LOGIN)) {
             return redirectUrl(LOGIN_URL, Validation.NEED_LOGIN.getMessage(),
@@ -107,12 +109,12 @@ public class UserController {
         return "redirect:/";
     }
 
-    private Validation checkValidation(User user, HttpSession session) throws IllegalAccessException {
+    private Validation checkValidation(User user, HttpSession session) {
         if (isNotUserLogin(session) == Validation.NEED_LOGIN) {
             return Validation.NEED_LOGIN;
         }
         if (!user.equals(getSessionUser(session))) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, Validation.FAIL.getMessage());
+            throw UnauthorizedException.noPermission();
         }
         return Validation.OK;
     }
