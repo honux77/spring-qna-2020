@@ -15,9 +15,10 @@ public class WelcomeController {
 
     @GetMapping("/")
     public String welcome(Model model) {
-        model.addAttribute("questions", questionRepository.findAll());
-        model.addAttribute("num_users", userRepository.count());
-        model.addAttribute("num_questions", questionRepository.count());
+        model.addAttribute("questions", questionRepository.findAll())
+                .addAttribute("num_users", userRepository.count())
+                .addAttribute("num_questions", questionRepository.count())
+                .addAttribute("version", "0.6.7");
         return "welcome";
 
     }

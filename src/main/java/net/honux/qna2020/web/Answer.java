@@ -1,18 +1,13 @@
 package net.honux.qna2020.web;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static net.honux.qna2020.web.WebUtils.htmlContentsForRead;
 @Entity
-public class Answer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Answer extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name="fk_question"))
@@ -25,9 +20,6 @@ public class Answer {
     @Lob
     String contents;
 
-    @CreationTimestamp
-    LocalDateTime createDate;
-
     public Answer() {};
     public Answer(Question question, User author, String contents) {
         this.question = question;
@@ -35,17 +27,19 @@ public class Answer {
         this.contents = contents;
     }
 
-
     public String getAuthorName() {
         return author.getName();
     }
 
+    public Long getQuestionId() { return question.getId(); }
+
+
     //for read
     public String getContentsForRead() {
-        return HtmlUtils.htmlEscape(contents).replace("\r\n", "<br>\n");
-    }
+        return htmlContentsForRead(contents);
+    };
 
-    public String getFormattedCreateDate() {
-        return createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    public boolean matchAuthor(User sessionUser) {
+        return this.author.equals(sessionUser);
     }
 }

@@ -1,40 +1,53 @@
 {{#partial "content"}}
 <div class="container">
     {{#question}}
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-10 col-md-offset-1 border-bottom" style="margin-bottom: 2rem">
         <h1 class="border-bottom">{{title}}</h1>
         <p> 질문 {{id}}번 작성자: {{author.name}}</p>
-        <p>작성일: {{formattedCreateDate}}</p>
-        <div id="content" class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</div>
-    </div>
-    <div class="col-md-4 col-md-offset-1">
-        <a class="btn btn-primary btn-sm" href="/">돌아가기</a>
-        {{#own}}
-        <a class="btn btn-warning btn-sm" href="/questions/{{id}}/updateForm">수정</a>
-        <div style="display:inline-block">
-        <form action="/questions/{{id}}" method="post">
-            <input type="hidden" name="_method" value="delete">
-            <button type="submit" class="btn btn-danger btn-sm">삭제</button>
-        </form>
+        <p>작성: {{formattedCreatedDate}} 최종수정: {{formattedModifiedDate}}</p>
+
+        <div id="question">
+            <p>{{{contentsForRead}}}</p>
+            <p>현재 <span id="num-answer">{{answerCount}}</span>개의 답변이 있습니다.</p>
+            <div style="margin-bottom: 1rem">
+                <a class="btn btn-primary btn-sm" href="/">돌아가기</a>
+                {{#own}}
+                <a class="btn btn-warning btn-sm" href="/questions/{{id}}/updateForm">수정</a>
+                <div style="display:inline-block">
+                    <form action="/questions/{{id}}" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+                    </form>
+                </div>
+                {{/own}}
+            </div>
         </div>
-        {{/own}}
     </div>
-    {{#each answers}}
-    <div class="col-md-9 col-md-offset-2">
-        <p>{{authorName}} {{formattedCreateDate}}</p>
-        <div id="answer" class="border-bottom" style="margin-bottom: 2rem">{{{contentsForRead}}}</div>
+
+    <div id="answers">
+        {{#each answers}}
+        <div class="answer col-md-9 col-md-offset-2">
+            <p>{{authorName}} {{formattedCreatedDate}} <a class="answer-delete"
+                                                          href="/api/questions/{{question.id}}/answers/{{id}}">삭제</a>
+            </p>
+            <p class="border-bottom" style="margin-bottom: 1rem">{{{contentsForRead}}}</p>
+        </div>
+        {{/each}}
     </div>
-    {{/each}}
     {{/question}}
-    <div class="col-md-9 col-md-offset-2">
-        <form action="/questions/{{id}}/answers" method="post">
+
+
+
+    <div class="col-md-9 col-md-offset-2" style="margin-top:10px">
+        <form id="answer-form" action="/api/questions/{{id}}/answers" method="post">
             <div class="form-group">
-                <label for="answer">answers</label>
-                <textarea wrap="" class="form-control" name="answer" rows="5" placeholder="댓글을 달아 주세요."></textarea>
+                <textarea id="answer-textarea" wrap="" class="form-control" name="answer" rows="5"
+                          placeholder="댓글을 달아 주세요."></textarea>
             </div>
             <button type="submit" class="btn btn-primary btn-sm">입력</button>
         </form>
     </div>
 </div>
+
 {{/partial}}
 {{>include/base}}
